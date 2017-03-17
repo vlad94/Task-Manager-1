@@ -23,6 +23,7 @@ public abstract class Task implements Comparable<Task>{
         this.name = name;
         this.description = description;
         this.time = LocalTime.parse(time);
+        this.date = LocalDate.parse(date);
     }
 
     // when task day is over or task is done - calculate the next date to repeat the task
