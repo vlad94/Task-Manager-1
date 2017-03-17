@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MyActivity</string>
+    <string name="help">Boost your productivity, do everything in your schedule and save time! </string>
+    <string name="help_step_1">Create your routine and add your daily activities to it! </string>
+    <string name="help_step_2">Control your activities with amazing notifications! </string>
+    <string name="help_step_3">Use the remiders option for other non-routine activities! </string>
+    <string name="help_step_4">Check your statistics to analyze and improve your distribution of time! </string>
+    <string name="help_ready">And you are ready! </string>
+    <string name="title_activity_help_info">HelpInfoActivity</string>
 </resources>

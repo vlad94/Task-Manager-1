@@ -15,6 +15,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MenuActivity" />
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".TodayTasksActivity" />
+        <activity android:name=".RoutinesActivity" />
+        <activity android:name=".RemindersActivity" />
+        <activity android:name=".AddRoutineActivity" />
+        <activity android:name=".AddReminderActivity" />
+        <activity android:name=".ChartActivity"></activity>
     </application>
 
 </manifest>
