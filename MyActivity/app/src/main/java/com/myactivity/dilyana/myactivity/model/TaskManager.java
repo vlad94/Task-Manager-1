@@ -1,7 +1,12 @@
 package com.myactivity.dilyana.myactivity.model;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeSet;
+import com.myactivity.dilyana.myactivity.model.Task.TaskType;
+
+import org.joda.time.LocalDate;
 
 /**
  * Created by Dilyana on 3/14/2017.
@@ -12,6 +17,11 @@ public class TaskManager {
     private HashMap<Task.TaskType, TreeSet<Task>> allTasks;
     private HashMap<Task.TaskType, Integer> numOfFinishedTasks;
     private HashMap<Task.TaskType, Integer> numOfUnfinishedTasks;
+    private HashMap<TaskType, TreeSet<Task>> missedTasks;
+    private int countRoutine;
+    private int countReminder;
+    private int countFinishedRoutine;
+    private int countFinishedReminder;
 
     public TaskManager() {
         this.allTasks = new HashMap<Task.TaskType, TreeSet<Task>>();
@@ -20,31 +30,104 @@ public class TaskManager {
     }
 
     public void addTask(Task task){
-        //TODO - add task to allTasks
+        if(!this.allTasks.containsKey(task.getTaskType())){
+            this.allTasks.put(task.getTaskType(), new TreeSet<Task>());
+        }
+        this.allTasks.get(task.getTaskType()).add(task);
+        if(task.getTaskType()==TaskType.Routine){
+            this.numOfUnfinishedTasks.put(task.getTaskType(),++countRoutine);
+        }
+        else
+            this.numOfUnfinishedTasks.put(task.getTaskType(),++countReminder);
     }
 
     public void removeTask(Task task){
+        allTasks.get(task.getTaskType()).remove(task);
         //TODO remove task from allTasks
-    }
-
-    public void editTask(Task oldTask, Task newTask){
-        //TODO - edit task
+        if(task.getTaskType()==TaskType.Routine){
+            this.numOfUnfinishedTasks.put(task.getTaskType(),--countRoutine);
+        }
+        else
+            this.numOfUnfinishedTasks.put(task.getTaskType(),--countReminder);
     }
 
     public void printHelpInfo(){
-        //TODO - print description for the task manager
+        System.out.println(""
+                + "Hello to work with Task manager must make zadacha- added task\n"
+                + "You must add that for every day or for a day\n"
+                + "and add an hour if you want to see tasks press see tasks");
     }
 
     public void printTodayTasks(){
-        //TODO - print all active tasks for today
+        for(Iterator<Map.Entry<TaskType, TreeSet<Task>>> it = allTasks.entrySet().iterator(); it.hasNext();){
+            Map.Entry<TaskType, TreeSet<Task>> e=it.next();
+            for(Iterator<Task> et=e.getValue().iterator();et.hasNext();){
+                Task t=et.next();
+
+                if(t.getDate().equals(LocalDate.now())){
+                    System.out.print(t.getName()+" / ");
+                    System.out.print(t.getTaskType()+" / ");
+                    System.out.print(t.getDate()+" / ");
+                    System.out.print(t.getTime());
+                    System.out.println();
+                    System.out.println(t.getDescription());
+                }
+            }
+        }
     }
 
-    public void printChart(){
-     	//TODO - print percent of finished tasks and percent of unfinished tasks and their type
+    public void printChartReminder(){
+        int numReminder=getTypeList(TaskType.Reminder);
+        int numReminderFinish=getTypeListFinish(TaskType.Reminder);
+        System.out.println("from  -"+numReminder+"-has completed-"+numReminderFinish);
+    }
+
+    public void printChartRoutine(){
+        int numRoutine=getTypeList(TaskType.Routine);
+        int numRoutineFinish=getTypeListFinish(TaskType.Routine);
+        System.out.println("from  -"+numRoutine+"-has completed-"+numRoutineFinish);
+
     }
 
     public void setCompleteness(boolean isCompleted, Task task){
-    	// if isCompleted - add to numOfFinishedTasks and increment the integer
-    	//else - add to numOfUninishedTasks and increment the integer
+        if(isCompleted){
+            if(allTasks.containsKey(task.getTaskType())){
+                allTasks.get(task.getTaskType()).remove(task);
+                if(task.getTaskType()==TaskType.Routine){
+                    this.numOfUnfinishedTasks.put(task.getTaskType(), --countRoutine);
+                    this.numOfFinishedTasks.put(task.getTaskType(),++countFinishedRoutine);
+                    //	count--;
+                }
+                else{
+                    this.numOfUnfinishedTasks.put(task.getTaskType(), --countReminder);
+                    this.numOfFinishedTasks.put(task.getTaskType(),++countFinishedReminder);
+                }
+
+                //		countFinish++;
+                //		this.numOfFinishedTasks.put(task.getTaskType(),countFinish);
+            }
+        }
+    }
+
+    private int getTypeList(TaskType t){
+        int c1=0;
+        for(Iterator<Map.Entry<TaskType, Integer>> it = numOfUnfinishedTasks.entrySet().iterator(); it.hasNext();){
+
+            Map.Entry<TaskType, Integer> et=it.next();
+            if(et.getKey()==t){
+                c1+=et.getValue();
+            }
+        }return c1;
+    }
+
+    private int getTypeListFinish(TaskType t){
+        int a=0;
+        for(Iterator<Map.Entry<TaskType, Integer>> it = numOfFinishedTasks.entrySet().iterator(); it.hasNext();){
+
+            Map.Entry<TaskType, Integer> et=it.next();
+            if(et.getKey()==t){
+                a+=et.getValue();
+            }
+        }return a;
     }
 }

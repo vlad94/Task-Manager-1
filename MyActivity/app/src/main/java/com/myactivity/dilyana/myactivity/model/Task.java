@@ -41,4 +41,24 @@ public abstract class Task implements Comparable<Task>{
         return this.date.compareTo(o.date);
 
     }
+
+    protected TaskType getTaskType() {
+        return taskType;
+    }
+
+    protected String getName() {
+        return name;
+    }
+
+    protected String getDescription() {
+        return description;
+    }
+
+    protected LocalDate getDate() {
+        return date;
+    }
+
+    protected LocalTime getTime() {
+        return time;
+    }
 }
