@@ -24,11 +24,11 @@ public class Routine extends Task{
             --this.repeatDays;
         }
     }
-
-    @Override
-    public String toString() {
-        // TODO print info for task and days left to repeat
-         return null;
-    }
+	
+	@Override
+	public String toString() {
+		// TODO print info for task and days left to repeat
+		return "Routine\nName: " + name + "\nDescription: " + description + "\nDays left: " + repeatDays;
+	}
 }
 

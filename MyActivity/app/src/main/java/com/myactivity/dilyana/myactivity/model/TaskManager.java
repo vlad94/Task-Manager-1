@@ -130,4 +130,42 @@ public class TaskManager {
             }
         }return a;
     }
+
+	public void addMissedTasks(){
+        for(Iterator<Map.Entry<TaskType, TreeSet<Task>>> it = allTasks.entrySet().iterator(); it.hasNext();){
+            Map.Entry<TaskType, TreeSet<Task>> e = it.next();
+            for(Iterator<Task> it2 = e.getValue().iterator(); it2.hasNext();){
+                Task e2 = it2.next();
+                if(e2.getDate().compareTo(LocalDate.now())<0){
+                    if(!this.missedTasks.containsKey(e2.getTaskType())){
+                        this.missedTasks.put(e2.getTaskType(), new TreeSet<Task>());
+                    }
+                    this.missedTasks.get(e2.getTaskType()).add(e2);
+                }
+            }
+        }
+
+    }
+
+	public void printMissedTasks(){
+        for(Iterator<Map.Entry<TaskType, TreeSet<Task>>> it = missedTasks.entrySet().iterator(); it.hasNext();){
+            Map.Entry<TaskType, TreeSet<Task>> e = it.next();
+            System.out.println("---"+e.getKey()+"---");
+            for(Iterator<Task> it2 = e.getValue().iterator(); it2.hasNext();){
+                Task e2 = it2.next();
+                System.out.println("    "+e2.toString());
+            }
+        }
+    }
+	
+	public void printAllTasks(){
+        for(Iterator<Map.Entry<TaskType, TreeSet<Task>>> it = allTasks.entrySet().iterator(); it.hasNext();){
+            Map.Entry<TaskType, TreeSet<Task>> e = it.next();
+            System.out.println("---"+e.getKey()+"---");
+            for(Iterator<Task> it2 = e.getValue().iterator(); it2.hasNext();){
+                Task e2 = it2.next();
+                System.out.println("    "+e2.toString());
+            }
+        }
+    }
 }
